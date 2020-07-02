@@ -6,13 +6,16 @@ const port = 3000
 const bodyParser = require('body-parser')
 const flash = require('connect-flash')
 const session = require('express-session')
-
+const passport = require('./config/passport')
 
 app.engine('handlebars', handlebars({defaultLayout:'main'}))
 app.set('view engine', 'handlebars')
 app.use(bodyParser.urlencoded({extended: true}))
+
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }))
 app.use(flash())
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use((req, res, next) => {
     res.locals.success_messages = req.flash('success_messages')
@@ -21,10 +24,9 @@ app.use((req, res, next) => {
   })
 
 
-app.listen(port, () => {
-    
+app.listen(port, () => {    
   console.log(`Example app listening on port ${port}!`)
 })
 
 
-require('./routes')(app)
+require('./routes')(app, passport)
