@@ -56,7 +56,11 @@ const userController = {
     },
 
     editUser: (req, res) => {
-
+        return User.findByPk(req.params.id, { raw: true }).then(users => {
+            return res.render('user', {
+                users: users
+            })
+        })
     },
 
     putUser: (req, res) => {
