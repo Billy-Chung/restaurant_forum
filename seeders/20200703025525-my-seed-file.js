@@ -10,21 +10,24 @@ module.exports = {
       isAdmin: true,
       name: "root",
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      img:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTzG2bL_xGrLiKk1d7HkWpXUcDp-KLTiji3dg&usqp=CAU"
     }, {
       email: 'user1@example.com',
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: false,
       name: "user1",
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      img:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTzG2bL_xGrLiKk1d7HkWpXUcDp-KLTiji3dg&usqp=CAU"
     }, {
       email: 'user2@example.com',
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: false,
       name: "user2",
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      img:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTzG2bL_xGrLiKk1d7HkWpXUcDp-KLTiji3dg&usqp=CAU"
     }], {});
 
     queryInterface.bulkInsert('Categories',
