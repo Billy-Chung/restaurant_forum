@@ -31,7 +31,7 @@ let restController = {
         description: r.dataValues.description.substring(0, 50),
         categoryName: r.Category.name
       }))
-      Category.findAll({ 
+      Category.findAll({
         raw: true,
         nest: true
       }).then(categories => {
@@ -51,13 +51,38 @@ let restController = {
   getRestaurant: (req, res) => {
     return Restaurant.findByPk(req.params.id, {
       include: [Category, { model: Comment, include: [User] }
-    ]
+      ]
     }).then(restaurant => {
       //console.log(restaurant.Comments[0].dataValues)
       return res.render('restaurant', {
         restaurant: restaurant.toJSON()
       })
     })
-  }
+  },
+
+  getFeeds: (req, res) => {
+    return Restaurant.findAll({
+      limit: 10,
+      raw: true,
+      nest: true,
+      order: [['createdAt', 'DESC']],
+      include: [Category]
+    }).then(restaurants => {
+      Comment.findAll({
+        limit: 10,
+        raw: true,
+        nest: true,
+        order: [['createdAt', 'DESC']],
+        include: [User, Restaurant]
+      }).then(comments => {
+        return res.render('feeds', {
+          restaurants: restaurants,
+          comments: comments
+        })
+      })
+    })
+  },
+
+  
 }
 module.exports = restController
