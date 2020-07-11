@@ -1,13 +1,40 @@
 <div class="row">
     <div class="col-md-4">
-        <img class="img-responsive center-block"
-            src="{{users.img}}"
-            style="width: 370px;margin-bottom: 25px;">
+        <img class="img-responsive center-block" src="{{users.img}}" style="width: 370px;margin-bottom: 25px;">
     </div>
 
     <div class="col-md-8 mt-3">
         <h1>{{users.name}}</h1>
         <p>{{users.email}}</p>
         <a class="btn btn-primary mt-4" href="/users/{{users.id}}/edit">Edit</a>
+        <p class="font-weight-bold">{{count}} 已評論餐廳</p>
+        <div class="card border-dark mb-3">
+        <div class="card-header">{{count}} 已評論餐廳</div>
+        <div class="card-body text-dark">
+            {{#each comments}}
+            <a class="mx-1" href="/restaurants/{{this.id}}">
+                <img src="{{this.image}}" alt="" style="width: 80px;height: 80px;">
+            </a>
+            {{/each}}
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="/users/{{users.id}}?page={{prev}}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {{#each totalPage}}
+                <li class="page-item {{#ifCond this ../page}}active {{/ifCond}}">
+                    <a class="page-link" href="/users/{{../profile.id}}?page={{this}}">{{this}}</a>
+                </li>
+                {{/each}}
+                <a class="page-link" href="/users/{{users.id}}?page={{next}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                </li>
+            </ul>
+        </nav>
     </div>
+</div>
 </div>

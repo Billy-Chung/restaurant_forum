@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const User = db.User
+const Comment = db.Comment
+const Restaurant = db.Restaurant
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
@@ -51,9 +53,41 @@ const userController = {
 
     getUser: (req, res) => {
         return User.findByPk(req.params.id, { raw: true }).then(users => {
-            return res.render('users', {
-                users: users
-            })
+            const id = req.params.id
+            const pageLimit = 7
+            let offset = 0
+
+            if (req.query.page) {
+                offset = (req.query.page - 1) * pageLimit
+            }
+
+            Comment.findAndCountAll({ include: Restaurant, where: { UserId: id }, offset: offset, limit: pageLimit })
+                .then(result => {
+                    const count = result.count
+                    const page = Number(req.query.page) || 1
+                    const pages = Math.ceil(count / pageLimit)
+                    const totalPage = Array.from({ length: pages }).map((item, index) => index + 1)
+                    const prev = page - 1 < 1 ? 1 : page - 1
+                    const next = page + 1 > pages ? pages : page + 1
+                    const comments = result.rows.map(r => ({
+                        id: r.Restaurant.id,
+                        image: r.Restaurant.image
+                    }))
+
+                    return User.findByPk(id)
+                        .then(profile => {
+                            return res.render('users', {
+                                users:users,
+                                profile: profile.toJSON(),
+                                count: count,
+                                page: page,
+                                totalPage: totalPage,
+                                prev: prev,
+                                next: next,
+                                comments: comments
+                            })
+                        })
+                })
         })
     },
 
@@ -81,7 +115,7 @@ const userController = {
                             name: req.body.name,
                             img: file ? img.data.link : user.image,
                         })
-                            .then((user) => {                                
+                            .then((user) => {
                                 req.flash('success_messages', '使用者已經成功修改!!!')
                                 res.redirect(`/users/${user.id}`)
                             })
@@ -89,13 +123,13 @@ const userController = {
             })
         }
         else
-            return User.findByPk(req.params.id)            
+            return User.findByPk(req.params.id)
                 .then((user) => {
                     user.update({
                         name: req.body.name,
                         img: user.img
                     })
-                        .then((user) => {                           
+                        .then((user) => {
                             req.flash('success_messages', '使用者已經成功修改!!!')
                             res.redirect(`/users/${user.id}`)
                         })
