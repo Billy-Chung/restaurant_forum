@@ -28,6 +28,8 @@ module.exports = (app, passport) => {
         res.redirect('/restaurants')
     })
 
+   
+
     app.get('/restaurants', authenticated, restController.getRestaurants)
 
     app.get('/restaurants/feeds', authenticated, restController.getFeeds)
@@ -94,10 +96,14 @@ module.exports = (app, passport) => {
 
     app.get('/logout', userController.logout)
 
+    app.get('/users/top', authenticated, userController.getTopUser)
+
     app.get('/users/:id', userController.getUser)
 
     app.get('/users/:id/edit', userController.editUser)
 
     app.put('/users/:id', upload.single('image'), userController.putUser)
+
+    
 
 }
