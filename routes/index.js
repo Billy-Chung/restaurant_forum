@@ -42,7 +42,7 @@ module.exports = (app, passport) => {
 
     app.post('/like/:restaurantId', authenticated, userController.addLike)
 
-    app.delete('/like/:restaurantId', authenticated, userController.unlike)
+    app.delete('/like/:restaurantId', authenticated, userController.unLike)
     
 
 

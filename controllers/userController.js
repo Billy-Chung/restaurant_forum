@@ -171,7 +171,7 @@ const userController = {
          })
        },
        
-       unlike: (req, res) => {
+       unLike: (req, res) => {
         return Like.findOne({where: {
           UserId: req.user.id,
           RestaurantId: req.params.restaurantId
