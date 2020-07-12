@@ -230,7 +230,7 @@ const userController = {
                return res.redirect('back')
              })
           })
-       }
+       },
 }
 
 module.exports = userController
