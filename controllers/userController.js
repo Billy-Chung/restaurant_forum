@@ -7,6 +7,7 @@ const Favorite = db.Favorite
 const Like = db.Like
 const Followship = db.Followship
 const imgur = require('imgur-node-api')
+const user = require('../models/user')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const userController = {
@@ -79,14 +80,14 @@ const userController = {
 
                     return User.findByPk(id)
                         .then(profile => {
-                            return res.render('users', {                                
+                            return res.render('users', {
                                 profile: profile.toJSON(),
                                 count: count,
                                 page: page,
                                 totalPage: totalPage,
                                 prev: prev,
                                 next: next,
-                                comments: comments
+                                comments: comments,
                             })
                         })
                 })
@@ -94,11 +95,17 @@ const userController = {
     },
 
     editUser: (req, res) => {
-        return User.findByPk(req.params.id, { raw: true }).then(users => {
-            return res.render('user', {
-                users: users
+        if (req.user.id === req.params.id) {
+            return User.findByPk(req.params.id, { raw: true }).then(users => {
+                return res.render('user', {
+                    users: users
+                })
             })
-        })
+        }
+        else {
+            return res.redirect('back')
+        }
+
     },
 
     putUser: (req, res) => {
@@ -106,13 +113,13 @@ const userController = {
             req.flash('error_messages', "名子是必填值!!!")
             return res.redirect('back')
         }
-        
+
         const { file } = req
         if (file) {
             imgur.setClientID(IMGUR_CLIENT_ID);
             imgur.upload(file.path, (err, img) => {
                 return User.findByPk(req.params.id)
-                    .then((user) => {                        
+                    .then((user) => {
                         user.update({
                             name: req.body.name,
                             img: file ? img.data.link : user.image,
@@ -210,26 +217,28 @@ const userController = {
 
     addFollowing: (req, res) => {
         return Followship.create({
-          followerId: req.user.id,
-          followingId: req.params.userId
+            followerId: req.user.id,
+            followingId: req.params.userId
         })
-         .then((followship) => {
-           return res.redirect('back')
-         })
-       },
-       
-       removeFollowing: (req, res) => {
-        return Followship.findOne({where: {
-          followerId: req.user.id,
-          followingId: req.params.userId
-        }})
-          .then((followship) => {
-            followship.destroy()
-             .then((followship) => {
-               return res.redirect('back')
-             })
-          })
-       },
+            .then((followship) => {
+                return res.redirect('back')
+            })
+    },
+
+    removeFollowing: (req, res) => {
+        return Followship.findOne({
+            where: {
+                followerId: req.user.id,
+                followingId: req.params.userId
+            }
+        })
+            .then((followship) => {
+                followship.destroy()
+                    .then((followship) => {
+                        return res.redirect('back')
+                    })
+            })
+    },
 }
 
 module.exports = userController
