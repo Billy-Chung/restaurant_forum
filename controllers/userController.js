@@ -79,8 +79,7 @@ const userController = {
 
                     return User.findByPk(id)
                         .then(profile => {
-                            return res.render('users', {
-                                users: users,
+                            return res.render('users', {                                
                                 profile: profile.toJSON(),
                                 count: count,
                                 page: page,
@@ -107,13 +106,13 @@ const userController = {
             req.flash('error_messages', "名子是必填值!!!")
             return res.redirect('back')
         }
-
+        
         const { file } = req
         if (file) {
             imgur.setClientID(IMGUR_CLIENT_ID);
             imgur.upload(file.path, (err, img) => {
                 return User.findByPk(req.params.id)
-                    .then((user) => {
+                    .then((user) => {                        
                         user.update({
                             name: req.body.name,
                             img: file ? img.data.link : user.image,

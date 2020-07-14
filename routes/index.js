@@ -104,11 +104,11 @@ module.exports = (app, passport) => {
 
     app.delete('/following/:userId', authenticated, userController.removeFollowing)
 
-    app.get('/users/:id', userController.getUser)
+    app.get('/users/:id', authenticated, userController.getUser)
 
-    app.get('/users/:id/edit', userController.editUser)
+    app.get('/users/:id/edit', authenticated, userController.editUser)
 
-    app.put('/users/:id', upload.single('image'), userController.putUser)
+    app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
 
 
 
