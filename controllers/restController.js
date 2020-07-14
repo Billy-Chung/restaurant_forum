@@ -117,7 +117,7 @@ let restController = {
         isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(r.id)
       }))
       restaurants = restaurants.sort((a, b) => (b.FavoriteCount - a.FavoriteCount)).slice(0, 10)
-      return res.render('toprestaurant', { restaurants })
+      return res.render('topRestaurant', { restaurants })
     })
     .catch(err => res.send(console.log(err)))
   }
