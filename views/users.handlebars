@@ -21,20 +21,25 @@
             </div>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
+                    {{#ifpage count 7}}
                     <li class="page-item">
                         <a class="page-link" href="/users/{{profile.id}}?page={{prev}}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
+                    {{/ifpage}}
                     {{#each totalPage}}
                     <li class="page-item {{#ifCond this ../page}}active {{/ifCond}}">
                         <a class="page-link" href="/users/{{../profile.id}}?page={{this}}">{{this}}</a>
                     </li>
                     {{/each}}
-                    <a class="page-link" href="/users/{{profile.id}}?page={{next}}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
+                    {{#ifpage count 7}}
+                    <li class="page-item">
+                        <a class="page-link" href="/users/{{profile.id}}?page={{next}}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
                     </li>
+                    {{/ifpage}}
                 </ul>
             </nav>
         </div>
