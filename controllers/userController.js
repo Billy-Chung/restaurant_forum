@@ -94,8 +94,8 @@ const userController = {
         })
     },
 
-    editUser: (req, res) => {
-        if (req.user.id === req.params.id) {
+    editUser: (req, res) => {        
+        if (parseInt(req.user.id) === parseInt(req.params.id)) {
             return User.findByPk(req.params.id, { raw: true }).then(users => {
                 return res.render('user', {
                     users: users
