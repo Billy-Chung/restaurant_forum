@@ -24,7 +24,7 @@ const adminService = {
         if (!req.body.name) {
             return callback({ status: 'error', message: '名子是必填值!!!' })
         }
-        const { file } = req 
+        const { file } = req
         if (file) {
             imgur.setClientID(IMGUR_CLIENT_ID)
             imgur.upload(file.path, (err, img) => {
@@ -53,6 +53,50 @@ const adminService = {
                     callback({ status: 'success', message: '餐廳已經成功新增!!!' })
                 })
         }
+    },
+
+    putRestaurant: (req, res, callback) => {
+        if (!req.body.name) {
+            return callback({ status: 'error', message: '名子是必填值!!!' })
+        }
+
+        const { file } = req
+        if (file) {
+            imgur.setClientID(IMGUR_CLIENT_ID);
+            imgur.upload(file.path, (err, img) => {
+                return Restaurant.findByPk(req.params.id)
+                    .then((restaurant) => {
+                        restaurant.update({
+                            name: req.body.name,
+                            tel: req.body.tel,
+                            address: req.body.address,
+                            opening_hours: req.body.opening_hours,
+                            description: req.body.description,
+                            image: file ? img.data.link : restaurant.image,
+                            CategoryId: req.body.categoryId,
+                        })
+                            .then((restaurant) => {
+                                callback({ status: 'success', message: '餐廳已經成功修改!!!' })
+                            })
+                    })
+            })
+        }
+        else
+            return Restaurant.findByPk(req.params.id)
+                .then((restaurant) => {
+                    restaurant.update({
+                        name: req.body.name,
+                        tel: req.body.tel,
+                        address: req.body.address,
+                        opening_hours: req.body.opening_hours,
+                        description: req.body.description,
+                        image: restaurant.image,
+                        CategoryId: req.body.categoryId
+                    })
+                        .then((restaurant) => {
+                            callback({ status: 'success', message: '餐廳已經成功修改!!!' })
+                        })
+                })
     },
 
     deleteRestaurant: (req, res, callback) => {
