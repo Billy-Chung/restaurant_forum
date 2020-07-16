@@ -1,7 +1,7 @@
 const db = require('../models')
 const Category = db.Category
 
-let categoryController = {
+let categoryService = {
     getCategories: (req, res, callback ) => {
         return Category.findAll({
             raw: true,
@@ -22,4 +22,4 @@ let categoryController = {
     },
 }
 
-module.exports = categoryController
+module.exports = categoryService
