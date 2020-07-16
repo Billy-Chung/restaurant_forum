@@ -16,6 +16,6 @@ router.get('/admin/categories', categoryController.getCategories)
 
 router.delete('/admin/restaurants/:id', adminController.deleteRestaurant)
 
-
+router.delete('/admin/categories/:id', categoryController.deleteCategory)
 
 module.exports = router
