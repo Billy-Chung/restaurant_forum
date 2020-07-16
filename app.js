@@ -39,4 +39,4 @@ app.listen(port, () => {
 })
 
 
-require('./routes')(app, passport)
+require('./routes')(app)

@@ -5,11 +5,12 @@ const fs = require('fs')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const User = db.User
+const adminService = require('../services/adminService.js')
 
 const adminController = {
     getRestaurants: (req, res) => {
-        return Restaurant.findAll({ raw: true, nest: true, include: [Category] }).then(restaurants => {
-            return res.render('admin/restaurants', { restaurants: restaurants, user: req.user, isAuthenticated: req.isAuthenticated })
+        adminService.getRestaurants(req, res, (date) => {
+            return res.render('admin/restaurants', date)
         })
     },
 
@@ -66,26 +67,26 @@ const adminController = {
 
     getRestaurant: (req, res,) => {
         return Restaurant.findByPk(req.params.id, { include: [Category] })
-        .then(restaurant => {            
-            return res.render('admin/restaurant', { 
-                restaurant: restaurant.toJSON()                
+            .then(restaurant => {
+                return res.render('admin/restaurant', {
+                    restaurant: restaurant.toJSON()
+                })
             })
-        })
     },
 
     editRestaurant: (req, res) => {
         Category.findAll({
-          raw: true,
-          nest: true
+            raw: true,
+            nest: true
         }).then(categories => {
-          return Restaurant.findByPk(req.params.id).then(restaurant => {
-            return res.render('admin/create', {
-              categories: categories, 
-              restaurant: restaurant.toJSON()
+            return Restaurant.findByPk(req.params.id).then(restaurant => {
+                return res.render('admin/create', {
+                    categories: categories,
+                    restaurant: restaurant.toJSON()
+                })
             })
-          })
         })
-      },
+    },
 
     putRestaurant: (req, res) => {
         if (!req.body.name) {
