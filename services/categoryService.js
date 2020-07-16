@@ -21,6 +21,20 @@ let categoryService = {
         })
     },
 
+    postCategory: (req, res, callback) => {
+        if (!req.body.name) {
+            return callback({ status: 'error', message: "分類名稱未填寫!!!" })
+        }
+        else {
+            return Category.create({
+                name: req.body.name
+            })
+                .then((category) => {
+                    callback({ status: 'success', message: '分類名稱創建成功!!!' })
+                })
+        }
+    },
+
     deleteCategory: (req, res, callback) => {
         return Category.findByPk(req.params.id)
             .then((category) => {
