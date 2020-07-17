@@ -7,7 +7,6 @@ const Favorite = db.Favorite
 const Like = db.Like
 const Followship = db.Followship
 const imgur = require('imgur-node-api')
-const user = require('../models/user')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 
@@ -122,7 +121,7 @@ const userService = {
             .then((favorite) => {
                 favorite.destroy()
                     .then((restaurant) => {
-                        return res.redirect('back')
+                        callback({ status: 'success', message: '' })
                     })
             })
     },
@@ -182,20 +181,20 @@ const userService = {
             })
     },
 
-    removeFollowing: (req, res) => {
-        return Followship.findOne({
-            where: {
-                followerId: req.user.id,
-                followingId: req.params.userId
-            }
+    removeFavorite: (req, res, callback) => {
+        return Favorite.findOne({
+          where: {
+            UserId: req.user.id,
+            RestaurantId: req.params.restaurantId
+          }
         })
-            .then((followship) => {
-                followship.destroy()
-                    .then((followship) => {
-                        return res.redirect('back')
-                    })
-            })
-    },
+          .then((favorite) => {
+            favorite.destroy()
+              .then((restaurant) => {
+                return callback({ status: 'success', message: '' })
+              })
+          })
+      },
 }
 
 
