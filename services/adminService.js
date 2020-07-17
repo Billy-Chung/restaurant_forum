@@ -109,6 +109,12 @@ const adminService = {
             })
     },
 
+    getUsers: (req, res, callback) => {
+        return User.findAll({ raw: true })
+            .then(users => {
+                callback({ users: users })
+            })
+    },
 }
 
 module.exports = adminService

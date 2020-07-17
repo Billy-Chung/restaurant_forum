@@ -19,27 +19,25 @@ const authenticatedAdmin = (req, res, next) => {
 }
 
 
+router.get('/admin', authenticated, authenticatedAdmin, (req, res) => res.redirect('/api/admin/restaurants'))
 router.get('/admin/restaurants', authenticated, authenticatedAdmin, adminController.getRestaurants)
-
-router.post('/admin/restaurants', authenticated, authenticatedAdmin, upload.single('image'), adminController.postRestaurant)
-
-router.put('/admin/restaurants/:id', authenticated, authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
-
 router.get('/admin/restaurant/:id', authenticated, authenticatedAdmin, adminController.getRestaurant)
-
+router.post('/admin/restaurants', authenticated, authenticatedAdmin, upload.single('image'), adminController.postRestaurant)
+router.put('/admin/restaurants/:id', authenticated, authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
 router.delete('/admin/restaurants/:id', authenticated, authenticatedAdmin, adminController.deleteRestaurant)
 
 
 router.get('/admin/categories', authenticated, authenticatedAdmin, categoryController.getCategories)
-
 router.post('/admin/categories', authenticated, authenticatedAdmin, categoryController.postCategory)
-
 router.put('/admin/categories/:id', authenticated, authenticatedAdmin, categoryController.putCategory)
-
 router.delete('/admin/categories/:id', authenticated, authenticatedAdmin, categoryController.deleteCategory)
 
 
+router.get('/admin/users', authenticated, authenticatedAdmin, adminController.getUsers)
+
+
 router.post('/signin', userController.signIn)
+router.post('/signup', userController.signUp)
 
 
 module.exports = router
