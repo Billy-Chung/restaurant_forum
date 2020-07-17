@@ -48,6 +48,7 @@ router.delete('/admin/restaurants/:id', authenticated, authenticatedAdmin, admin
 
 router.get('/admin/categories', authenticated, authenticatedAdmin, categoryController.getCategories)
 router.post('/admin/categories', authenticated, authenticatedAdmin, categoryController.postCategory)
+router.get('/admin/categories/:id', authenticated, authenticatedAdmin, categoryController.getCategories)
 router.put('/admin/categories/:id', authenticated, authenticatedAdmin, categoryController.putCategory)
 router.delete('/admin/categories/:id', authenticated, authenticatedAdmin, categoryController.deleteCategory)
 
