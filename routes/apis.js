@@ -40,6 +40,7 @@ router.get('/admin', authenticated, authenticatedAdmin, (req, res) => res.redire
 router.get('/admin/restaurants', authenticated, authenticatedAdmin, adminController.getRestaurants)
 router.get('/admin/restaurant/:id', authenticated, authenticatedAdmin, adminController.getRestaurant)
 router.get('/admin/restaurants/:id/edit', authenticated, authenticatedAdmin, adminController.editRestaurant)
+router.get('/admin/restaurants/create', authenticated, authenticatedAdmin, adminController.createRestaurant)
 router.post('/admin/restaurants', authenticated, authenticatedAdmin, upload.single('image'), adminController.postRestaurant)
 router.put('/admin/restaurants/:id', authenticated, authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
 router.delete('/admin/restaurants/:id', authenticated, authenticatedAdmin, adminController.deleteRestaurant)
