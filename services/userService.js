@@ -11,7 +11,7 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 
 const userService = {
-    getUser: (req, res) => {
+    getUser: (req, res, callback) => {
         return User.findByPk(req.params.id, { raw: true }).then(users => {
             const id = req.params.id
             const pageLimit = 7
@@ -36,7 +36,7 @@ const userService = {
 
                     return User.findByPk(id)
                         .then(profile => {
-                            return res.render('users', {
+                            return callback({
                                 profile: profile.toJSON(),
                                 count: count,
                                 page: page,
