@@ -150,7 +150,7 @@ const userService = {
                     })
             })
     },
-    getTopUser: (req, res) => {
+    getTopUser: (req, res, callback) => {
         // 撈出所有 User 與 followers 資料
         return User.findAll({
             include: [
@@ -167,7 +167,7 @@ const userService = {
             }))
             // 依追蹤者人數排序清單
             users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
-            return res.render('topUser', { users: users })
+            callback({ users: users })
         })
     },
 
