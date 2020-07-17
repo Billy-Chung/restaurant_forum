@@ -126,13 +126,13 @@ const userService = {
             })
     },
 
-    addLike: (req, res) => {
+    addLike: (req, res, callback) => {
         return Like.create({
             UserId: req.user.id,
             RestaurantId: req.params.restaurantId
         })
             .then((Like) => {
-                return res.redirect('back')
+                return callback({ status: 'success', message: '' })
             })
     },
 
@@ -183,18 +183,18 @@ const userService = {
 
     removeFavorite: (req, res, callback) => {
         return Favorite.findOne({
-          where: {
-            UserId: req.user.id,
-            RestaurantId: req.params.restaurantId
-          }
+            where: {
+                UserId: req.user.id,
+                RestaurantId: req.params.restaurantId
+            }
         })
-          .then((favorite) => {
-            favorite.destroy()
-              .then((restaurant) => {
-                return callback({ status: 'success', message: '' })
-              })
-          })
-      },
+            .then((favorite) => {
+                favorite.destroy()
+                    .then((restaurant) => {
+                        return callback({ status: 'success', message: '' })
+                    })
+            })
+    },
 }
 
 
