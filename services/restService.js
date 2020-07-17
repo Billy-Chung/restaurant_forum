@@ -49,7 +49,7 @@ let restService = {
         })
     },
 
-    getRestaurant: (req, res) => {
+    getRestaurant: (req, res, callback) => {
         return Restaurant.findByPk(req.params.id, {
             include: [Category, { model: User, as: 'FavoritedUsers' }, { model: User, as: 'LikeUsers' }, { model: Comment, include: [User] }
             ]
@@ -59,7 +59,7 @@ let restService = {
                 //console.log(restaurant.Comments[0].dataValues)
                 const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)
                 const isLike = restaurant.LikeUsers.map(d => d.id).includes(req.user.id)
-                return res.render('restaurant', {
+                callback({
                     restaurant: restaurant.toJSON(),
                     isFavorited: isFavorited,
                     isLike: isLike,
