@@ -38,14 +38,8 @@ let restController = {
     },
 
     getDashboard: (req, res) => {
-        return Restaurant.findByPk(req.params.id, {
-            include: [Category, { model: Comment, include: [User] }
-            ]
-        }).then(restaurant => {
-            //console.log(restaurant.Comments[0].dataValues)      
-            return res.render('dashboard', {
-                restaurant: restaurant.toJSON()
-            })
+        restService.getDashboard(req, res, (data) => {
+            return res.json(data)
         })
     },
 

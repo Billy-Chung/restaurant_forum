@@ -90,15 +90,13 @@ let restService = {
         })
     },
 
-    getDashboard: (req, res) => {
+    getDashboard: (req, res, callback) => {
         return Restaurant.findByPk(req.params.id, {
             include: [Category, { model: Comment, include: [User] }
             ]
         }).then(restaurant => {
             //console.log(restaurant.Comments[0].dataValues)      
-            return res.render('dashboard', {
-                restaurant: restaurant.toJSON()
-            })
+            return callback({ restaurant: restaurant })
         })
     },
 
