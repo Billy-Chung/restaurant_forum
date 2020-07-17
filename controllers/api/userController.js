@@ -75,6 +75,12 @@ let userController = {
             return res.json(data)
         })
     },
+
+    unLike: (req, res) => {
+        userService.unLike(req, res, (data) => {
+            return res.json(data)
+        })
+    },
 }
 
 module.exports = userController

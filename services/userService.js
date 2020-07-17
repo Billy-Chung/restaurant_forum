@@ -136,7 +136,7 @@ const userService = {
             })
     },
 
-    unLike: (req, res) => {
+    unLike: (req, res, callback) => {
         return Like.findOne({
             where: {
                 UserId: req.user.id,
@@ -146,7 +146,7 @@ const userService = {
             .then((Like) => {
                 Like.destroy()
                     .then((Like) => {
-                        return res.redirect('back')
+                        return callback({ status: 'success', message: '' })
                     })
             })
     },

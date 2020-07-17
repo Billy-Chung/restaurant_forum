@@ -7,6 +7,7 @@ const adminController = require('../controllers/api/adminController.js')
 const categoryController = require('../controllers/api/categoryController.js')
 const userController = require('../controllers/api/userController.js')
 const restController = require('../controllers/api/restController.js')
+const commentController = require('../controllers/api/commentController')
 const passport = require('../config/passport')
 const authenticated = passport.authenticate('jwt', { session: false })
 
@@ -29,6 +30,9 @@ router.get('/restaurants/:id', authenticated, restController.getRestaurant)
 router.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
 router.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
 router.post('/like/:restaurantId', authenticated, userController.addLike)
+router.delete('/like/:restaurantId', authenticated, userController.unLike)
+
+router.post('/comments', authenticated, commentController.postComment)
 
 
 router.get('/admin', authenticated, authenticatedAdmin, (req, res) => res.redirect('/api/admin/restaurants'))
