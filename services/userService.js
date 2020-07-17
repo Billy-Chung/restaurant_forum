@@ -181,16 +181,16 @@ const userService = {
             })
     },
 
-    removeFavorite: (req, res, callback) => {
-        return Favorite.findOne({
+    removeFollowing: (req, res, callback) => {
+        return Followship.findOne({
             where: {
-                UserId: req.user.id,
-                RestaurantId: req.params.restaurantId
+                followerId: req.user.id,
+                followingId: req.params.userId
             }
         })
-            .then((favorite) => {
-                favorite.destroy()
-                    .then((restaurant) => {
+            .then((followship) => {
+                followship.destroy()
+                    .then((followship) => {
                         return callback({ status: 'success', message: '' })
                     })
             })
