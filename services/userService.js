@@ -50,18 +50,12 @@ const userService = {
         })
     },
 
-    editUser: (req, res) => {
-        if (parseInt(req.user.id) === parseInt(req.params.id)) {
-            return User.findByPk(req.params.id, { raw: true }).then(users => {
-                return res.render('user', {
-                    users: users
-                })
+    editUser: (req, res, callback) => {
+        return User.findByPk(req.params.id, { raw: true }).then(users => {
+            return callback({
+                users: users
             })
-        }
-        else {
-            return res.redirect('back')
-        }
-
+        })
     },
 
     putUser: (req, res) => {

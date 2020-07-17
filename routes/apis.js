@@ -35,6 +35,7 @@ router.get('/users/top', authenticated, userController.getTopUser)
 router.post('/following/:userId', authenticated, userController.addFollowing)
 router.delete('/following/:userId', authenticated, userController.removeFollowing)
 router.get('/users/:id', authenticated, userController.getUser)
+router.get('/users/:id/edit', authenticated, userController.editUser)
 
 router.post('/comments', authenticated, commentController.postComment)
 router.delete('/comments/:id', authenticated, authenticatedAdmin, commentController.deleteComment)
