@@ -102,7 +102,7 @@ let restService = {
         })
     },
 
-    getTopRestaurants: (req, res) => {
+    getTopRestaurants: (req, res, callback) => {
         return Restaurant.findAll({
             include: [
                 { model: User, as: 'FavoritedUsers' }
@@ -116,7 +116,7 @@ let restService = {
                     isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(r.id)
                 }))
                 restaurants = restaurants.sort((a, b) => (b.FavoriteCount - a.FavoriteCount)).slice(0, 10)
-                return res.render('topRestaurant', { restaurants })
+                return callback({ restaurants })
             })
             .catch(err => res.send(console.log(err)))
     }
