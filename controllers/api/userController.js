@@ -24,7 +24,7 @@ let userController = {
                 return res.status(401).json({ status: 'error', message: 'passwords did not match' })
             }
             // 簽發 token
-            var payload = { id: user.id }                     
+            var payload = { id: user.id }
             var token = jwt.sign(payload, process.env.JWT_SECRET)
             return res.json({
                 status: 'success',
@@ -38,24 +38,30 @@ let userController = {
     },
 
     signUp: (req, res) => {
-        if(req.body.passwordCheck !== req.body.password){
-          return res.json({ status: 'error', message: '兩次密碼輸入不同！'})
+        if (req.body.passwordCheck !== req.body.password) {
+            return res.json({ status: 'error', message: '兩次密碼輸入不同！' })
         } else {
-          User.findOne({where: {email: req.body.email}}).then(user => {
-            if(user){
-              return res.json({ status: 'error', message: '信箱重複！'})
-            } else {
-              User.create({
-                name: req.body.name,
-                email: req.body.email,
-                password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null)
-              }).then(user => {
-                return res.json({ status: 'success', message: '成功註冊帳號！'})
-              })  
-            }
-          })    
+            User.findOne({ where: { email: req.body.email } }).then(user => {
+                if (user) {
+                    return res.json({ status: 'error', message: '信箱重複！' })
+                } else {
+                    User.create({
+                        name: req.body.name,
+                        email: req.body.email,
+                        password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null)
+                    }).then(user => {
+                        return res.json({ status: 'success', message: '成功註冊帳號！' })
+                    })
+                }
+            })
         }
-      },
+    },
+
+    addFavorite: (req, res) => {
+        userService.addFavorite(req, res, (data) => {
+            return res.json(data)
+        })
+    },
 }
 
 module.exports = userController

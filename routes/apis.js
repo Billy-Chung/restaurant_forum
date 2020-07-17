@@ -26,6 +26,8 @@ router.get('/restaurants/top', authenticated, restController.getTopRestaurants)
 router.get('/restaurants/:id/dashboard', authenticated, restController.getDashboard)
 router.get('/restaurants/:id', authenticated, restController.getRestaurant)
 
+router.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
+
 
 router.get('/admin', authenticated, authenticatedAdmin, (req, res) => res.redirect('/api/admin/restaurants'))
 router.get('/admin/restaurants', authenticated, authenticatedAdmin, adminController.getRestaurants)
