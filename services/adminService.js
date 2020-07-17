@@ -99,6 +99,20 @@ const adminService = {
                 })
     },
 
+    editRestaurant: (req, res, callback) => {
+        Category.findAll({
+            raw: true,
+            nest: true
+        }).then(categories => {
+            return Restaurant.findByPk(req.params.id).then(restaurant => {
+                return callback({
+                    categories: categories,
+                    restaurant: restaurant,
+                })
+            })
+        })
+    },
+
     deleteRestaurant: (req, res, callback) => {
         return Restaurant.findByPk(req.params.id)
             .then((restaurant) => {
