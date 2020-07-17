@@ -9,16 +9,23 @@ let commentController = {
             UserId: req.user.id
         })
             .then((comment) => {
-                return callback({ status: 'success', message: '留言成功' })
+                console.log(comment)
+                return callback({
+                    status: 'success',
+                    message: '留言成功',
+                    RestaurantId: comment.RestaurantId,
+                    commentId: comment.id
+                })
             })
     },
 
-    deleteComment: (req, res) => {
+    deleteComment: (req, res, callback) => {
         return Comment.findByPk(req.params.id)
             .then((comment) => {
+                const restaurantId = comment.RestaurantId
                 comment.destroy()
                     .then((comment) => {
-                        res.redirect(`/restaurants/${comment.RestaurantId}`)
+                        return callback({ status: 'success', message: '成功刪除留言 ', RestaurantId: restaurantId })
                     })
             })
     },
