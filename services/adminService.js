@@ -115,6 +115,19 @@ const adminService = {
                 callback({ users: users })
             })
     },
+
+    putUser: (req, res, callback) => {
+        return User.findByPk(req.params.id)
+            .then((user) => {
+                return user.update({
+                    isAdmin: !user.isAdmin
+                })
+            })
+            .then((user) => {
+                callback({ status: 'success', message: `${user.name}已成功修改權限` })
+            })
+
+    },
 }
 
 module.exports = adminService
